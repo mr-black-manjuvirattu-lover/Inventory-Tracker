@@ -1,0 +1,115 @@
+.product-management {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #4caf50;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(230, 139, 139, 0.2);
+    text-align: center;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+}
+  
+.product-management h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  
+  .product-management form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 50%;
+    background: rgba(199, 226, 194, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.3);
+  }
+  
+  .product-management input {
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.8);
+    color: #333;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .product-management input:focus {
+    background: #fff;
+    transform: scale(1.03);
+  }
+  
+  .product-management button {
+    padding: 12px;
+    font-size: 16px;
+    width: 40%;
+    background: #f9e610;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    
+  }
+  
+  .product-management button:hover {
+    background: #31dbfd;
+    transform: scale(1.05);
+  }
+  
+  .product-list {
+    margin-top: 25px;
+    background: rgba(255, 255, 255, 0.2);
+    width: 50%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.3);
+  }
+  
+  .product-list h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+  
+  .product-list  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .product-list li {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 8px 0;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .product-list li:hover {
+    transform: scale(1.03);
+  }
+  
+  @media (max-width: 600px) {
+    .product-management {
+      padding: 15px;
+    }
+  
+    input, button {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+  
