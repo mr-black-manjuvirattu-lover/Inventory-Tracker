@@ -1,20 +1,37 @@
 import React, { useState } from "react";
 import './CSS/Signup.css'
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 function Signup() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate=useNavigate()
+  const [Name, setName] = useState("");
+  const [Email, setEmail] = useState("");
+  const [PhoneNumber, setPhoneNumber] = useState("");
+  const [Password, setPassword] = useState("");
+  const [ConfirmPassword, setConfirmPassword] = useState("");
 
-  const handleSignup = (e) => {
+  const handleSignup =async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
+    if(Password===ConfirmPassword){
+      const req=await axios.post("http://localhost:5001/signup",{
+        Name:Name,
+        Email:Email,
+        Password:Password,
+        PhoneNumber:PhoneNumber
+      })
+      const message=req.data.message
+      const isSignup=req.data.isSignup
+      if(isSignup){
+        alert(message)
+        navigate('/login')
+      }else{
+        alert(message)
+      }
+    }else{
+      alert("Password Not Matched")
     }
-    console.log("Signed up with:", name, email, phoneNumber, password);
-  };
+    
+  }
 
   return (
     <div className="signup-container">
@@ -24,7 +41,7 @@ function Signup() {
           <label>Name</label>
           <input
             type="text"
-            value={name}
+            value={Name}
             onChange={(e) => setName(e.target.value)}
             required
           />
@@ -33,7 +50,7 @@ function Signup() {
           <label>Email</label>
           <input
             type="email"
-            value={email}
+            value={Email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
@@ -42,7 +59,7 @@ function Signup() {
           <label>Phone Number</label>
           <input
             type="tel"
-            value={phoneNumber}
+            value={PhoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             required
           />
@@ -51,7 +68,7 @@ function Signup() {
           <label>Password</label>
           <input
             type="password"
-            value={password}
+            value={Password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
@@ -60,7 +77,7 @@ function Signup() {
           <label>Confirm Password</label>
           <input
             type="password"
-            value={confirmPassword}
+            value={ConfirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />

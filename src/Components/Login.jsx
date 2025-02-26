@@ -1,13 +1,27 @@
 import React, { useState } from "react";
+import axios from "axios";
 import './CSS/Login.css'
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate=useNavigate()
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async(e) => {
     e.preventDefault();
-    console.log("Logged in with", email, password);
+    const req=await axios.post("http://localhost:5001/login",{
+      Email:Email,
+      Password:Password
+    })
+    const message=req.data.message
+    const isLoggedin=req.data.isLoggedin
+    if(isLoggedin){
+      alert(message)
+      navigate('/')
+    }else{
+      alert(message)
+    }
   };
 
   return (
@@ -18,7 +32,7 @@ function Login() {
           <label>Email</label>
           <input
             type="email"
-            value={email}
+            value={Email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
@@ -27,7 +41,7 @@ function Login() {
           <label>Password</label>
           <input
             type="password"
-            value={password}
+            value={Password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />

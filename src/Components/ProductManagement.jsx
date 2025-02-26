@@ -31,7 +31,7 @@ const ProductManagement = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3001/products', newProduct)
+    axios.post('http://localhost:5001/products', newProduct)
       .then((response) => {
         setProducts([...products, response.data]);
         setNewProduct({ name: '', category: '', price: '', quantity: '' });
