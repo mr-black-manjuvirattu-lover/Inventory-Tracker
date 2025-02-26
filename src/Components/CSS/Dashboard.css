@@ -1,0 +1,46 @@
+.dashboard-container {
+    margin: 40px auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #97f897, #e595ee);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+.dashboard-container h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.dashboard-sections {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.dashboard-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 45%;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: #333;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* .dashboard-card:hover {
+    transform: scale(1.05);
+} */
+
+@media (max-width: 768px) {
+    .dashboard-card {
+        width: 100%;
+    }
+}
