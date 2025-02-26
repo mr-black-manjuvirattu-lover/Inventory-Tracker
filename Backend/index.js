@@ -5,6 +5,7 @@ const dotenv=require('dotenv')
 const bcrypt=require('bcrypt')
 const Product=require('./models/productSchema')
 const signup=require('./models/signupSchema')
+const Stock=require('./models/stockSchema')
 const app = express();
 
 app.use(express.json());
@@ -86,6 +87,35 @@ app.put('/products/:id', async (req, res) => {
   } catch (error) {
     res.status(500).send('Error updating stock');
   }
+});
+
+app.get('/stocks', async (req, res) => {
+    try {
+        const stocks = await Stock.find();
+        res.json(stocks);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch stocks" });
+    }
+});
+
+app.post('/stocks', async (req, res) => {
+    try {
+        const { name, category, quantity, price } = req.body;
+        const newStock = new Stock({ name, category, quantity, price });
+        await newStock.save();
+        res.status(201).json(newStock);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to add stock item" });
+    }
+});
+
+app.delete('/stocks/:id', async (req, res) => {
+    try {
+        await Stock.findByIdAndDelete(req.params.id);
+        res.json({ message: "Stock item deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to delete stock item" });
+    }
 });
 
 app.listen(PORT, () => {

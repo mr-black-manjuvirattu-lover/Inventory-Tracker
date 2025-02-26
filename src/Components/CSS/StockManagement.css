@@ -1,0 +1,130 @@
+.stock-management {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #4caf50;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stock-management h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.stock-management form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.3);
+    align-items: center;
+}
+
+.stock-management input {
+    width: 90%;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.8);
+    color: #333;
+    transition: all 0.3s ease-in-out;
+}
+
+.stock-management input:focus {
+    background: #fff;
+    transform: scale(1.03);
+}
+
+.stock-management button {
+    padding: 12px;
+    font-size: 16px;
+    width: 50%;
+    background: #2bc5f0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+.stock-management button:hover {
+    background: #f57c00;
+    transform: scale(1.05);
+}
+
+.stock-list {
+    margin-top: 20px;
+    width: 90%;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.stock-list h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.stock-list table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    color: black;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.stock-list th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.stock-list th {
+    background: #1976D2;
+    color: white;
+}
+
+.stock-list tr:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.stock-list .delete-btn {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.stock-list .delete-btn:hover {
+    background: #d32f2f;
+}
+
+@media (max-width: 600px) {
+    form, .stock-list {
+        width: 95%;
+    }
+
+    input, button {
+        font-size: 14px;
+        padding: 10px;
+        width: 100%;
+    }
+}
