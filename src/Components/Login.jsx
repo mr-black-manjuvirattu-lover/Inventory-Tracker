@@ -19,7 +19,7 @@ function Login({ setUserName, setIsLoggedIn, setUserId }) {
       console.log("Logging in...");
       const startTime = performance.now();
   
-      const response = await axios.post("http://localhost:5001/login", {
+      const response = await axios.post("https://inventory-tracker-1fnw.onrender.com/login", {
         Email,
         Password,
       });

@@ -12,7 +12,7 @@ const StockManagement = ({ userId }) => {
   });
 
   useEffect(() => {
-    axios.get(`http://localhost:5001/stocks/${userId}`)
+    axios.get(`https://inventory-tracker-1fnw.onrender.com/${userId}`)
       .then((response) => {
         setStocks(response.data);
       })
@@ -28,7 +28,7 @@ const StockManagement = ({ userId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5001/stocks', { ...newStock, userId: userId })
+    axios.post('https://inventory-tracker-1fnw.onrender.com/stocks', { ...newStock, userId: userId })
       .then((response) => {
         setStocks([...stocks, response.data]);
         setNewStock({ name: '', category: '', quantity: '', price: '' });
@@ -40,7 +40,7 @@ const StockManagement = ({ userId }) => {
 
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:5001/stocks/${id}`)
+    axios.delete(`https://inventory-tracker-1fnw.onrender.com/stocks/${id}`)
       .then(() => {
         setStocks(stocks.filter(stock => stock._id !== id));
       })

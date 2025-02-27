@@ -25,7 +25,7 @@ function Signup() {
     setError("");
 
     try {
-      const req = await axios.post("http://localhost:5001/signup", {
+      const req = await axios.post("https://inventory-tracker-1fnw.onrender.com/signup", {
         Name: Name,
         Email: Email,
         Password: Password,

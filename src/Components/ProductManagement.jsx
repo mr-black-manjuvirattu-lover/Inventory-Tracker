@@ -16,7 +16,7 @@ const ProductManagement = ({ userId }) => {
   }, [userId]);
 
   const fetchProducts = () => {
-    axios.get(`http://localhost:5001/products/${userId}`)
+    axios.get(`https://inventory-tracker-1fnw.onrender.com/${userId}`)
       .then((response) => {
         console.log("Products fetched:", response.data);
         setProducts(response.data);
@@ -36,7 +36,7 @@ const ProductManagement = ({ userId }) => {
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5001/products', { ...newProduct, userId: userId })
+    axios.post('https://inventory-tracker-1fnw.onrender.com/products', { ...newProduct, userId: userId })
       .then((response) => {
         console.log("Added Product:", response.data);
         setNewProduct({ name: '', category: '', price: '', quantity: '' });
