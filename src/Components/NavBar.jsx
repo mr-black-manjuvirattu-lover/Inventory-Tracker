@@ -1,11 +1,11 @@
 import React from 'react';
 import './CSS/NavBar.css';
+import profileIcon from '../assets/Images/Profile.jpg'
 
 const NavBar = ({ userName, isLoggedIn }) => {
-  const profileIcon = 'https://via.placeholder.com/30'; 
 
   return (
-    <header>
+    <header>  
       <h1>Inventory-Tracker</h1>
       {isLoggedIn && (
         <div className="navbar-right">

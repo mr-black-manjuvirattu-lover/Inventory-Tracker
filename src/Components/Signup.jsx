@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './CSS/Signup.css';
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Signup() {
   const navigate = useNavigate();
@@ -102,7 +102,7 @@ function Signup() {
           {loading && <p>Loading...</p>}
         </form>
         {error && <p className="error-message">{error}</p>} 
-        <p>Already have an account? <a href="/login">Login</a></p>
+        <p>Already have an account? <Link to="/login">Login</Link></p>
       </div>
     </div>
   );

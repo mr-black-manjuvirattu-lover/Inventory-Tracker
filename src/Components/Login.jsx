@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import './CSS/Login.css';
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 function Login({ setUserName, setIsLoggedIn }) {
@@ -67,7 +68,7 @@ function Login({ setUserName, setIsLoggedIn }) {
           {loading && <p>Loading...</p>}
         </form>
         {error && <p className="error-message">{error}</p>}
-        <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+        <p>Don't have an account? <Link to='/signup'>Signup</Link></p>
       </div>
     </div>
     
