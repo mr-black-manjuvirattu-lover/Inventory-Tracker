@@ -35,10 +35,6 @@
     transition: transform 0.3s ease-in-out;
 }
 
-/* .dashboard-card:hover {
-    transform: scale(1.05);
-} */
-
 @media (max-width: 768px) {
     .dashboard-card {
         width: 100%;

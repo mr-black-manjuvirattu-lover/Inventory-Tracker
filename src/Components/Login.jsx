@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import './CSS/Login.css';
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
-function Login({ setUserName, setIsLoggedIn }) {
+function Login({ setUserName, setIsLoggedIn, setUserId }) {
   const navigate = useNavigate();
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -14,20 +13,31 @@ function Login({ setUserName, setIsLoggedIn }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(""); 
+    setError("");
+  
     try {
+      console.log("Logging in...");
+      const startTime = performance.now();
+  
       const response = await axios.post("http://localhost:5001/login", {
-        Email: Email,
-        Password: Password,
+        Email,
+        Password,
       });
-
-      const message = response.data.message;
-      const isLoggedin = response.data.isLoggedin;
-
+  
+      const endTime = performance.now();
+      console.log(`Login request took ${endTime - startTime} ms`);
+  
+      const { message, isLoggedin, userName, userId } = response.data;
+  
       if (isLoggedin) {
-        setUserName(response.data.userName); 
+        setUserName(userName);
+        setUserId(userId);
         setIsLoggedIn(true);
-        navigate("/dashboard");
+  
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("userName", userName);
+        
+        navigate("/dashboard"); 
       } else {
         alert(message);
       }
@@ -38,7 +48,7 @@ function Login({ setUserName, setIsLoggedIn }) {
       setLoading(false);
     }
   };
-
+  
   return (
     <div className="Body">
       <div className="login-container">
@@ -63,15 +73,13 @@ function Login({ setUserName, setIsLoggedIn }) {
             />
           </div>
           <button type="submit" disabled={loading}>
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
-          {loading && <p>Loading...</p>}
         </form>
         {error && <p className="error-message">{error}</p>}
         <p>Don't have an account? <Link to='/signup'>Signup</Link></p>
       </div>
     </div>
-    
   );
 }
 

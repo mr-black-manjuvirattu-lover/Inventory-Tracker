@@ -26,7 +26,7 @@ app.post('/login',async (req,res)=>{
         if(existingUser){
             const isValidPassword=bcrypt.compare(Password,existingUser.Password)
             if(isValidPassword){
-                res.status(201).json({message:"Login Successful",isLoggedin:true})
+                res.status(201).json({message:"Login Successful",isLoggedin:true,userName: existingUser.Name,userId:existingUser._id})
             }else{
                 res.status(201).json({message:"Invalid Credentials",isLoggedin:false})
             }
@@ -59,64 +59,84 @@ app.post('/signup',async (req,res)=>{
     }
 })
 
-app.get('/products', async (req, res) => {
+app.get('/products/:userId', async (req, res) => {
   try {
-    const products = await Product.find();
-    res.json(products);
+      const products = await Product.find({ userId: req.params.userId });
+      res.json(products);
   } catch (error) {
-    res.status(500).send('Error fetching products');
+      res.status(500).json({ error: 'Error fetching products' });
   }
 });
 
 app.post('/products', async (req, res) => {
-  const { name, category, price, quantity } = req.body;
+  const { userId, name, category, price, quantity } = req.body;
   try {
-    const newProduct = new Product({ name, category, price, quantity });
-    await newProduct.save();
-    res.json(newProduct);
+      const newProduct = new Product({ userId, name, category, price, quantity });
+      await newProduct.save();
+      res.json(newProduct);
   } catch (error) {
-    res.status(500).send('Error adding product');
+      res.status(500).json({ error: 'Error adding product' });
   }
 });
 
 app.put('/products/:id', async (req, res) => {
   const { quantity } = req.body;
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, { quantity }, { new: true });
-    res.json(updatedProduct);
+      const updatedProduct = await Product.findByIdAndUpdate(req.params.id, { quantity }, { new: true });
+      res.json(updatedProduct);
   } catch (error) {
-    res.status(500).send('Error updating stock');
+      res.status(500).json({ error: 'Error updating product' });
   }
 });
 
-app.get('/stocks', async (req, res) => {
-    try {
-        const stocks = await Stock.find();
-        res.json(stocks);
-    } catch (err) {
-        res.status(500).json({ error: "Failed to fetch stocks" });
-    }
+app.delete('/products/:id', async (req, res) => {
+  try {
+      await Product.findByIdAndDelete(req.params.id);
+      res.json({ message: 'Product deleted successfully' });
+  } catch (error) {
+      res.status(500).json({ error: 'Error deleting product' });
+  }
+});
+
+app.get('/stocks/:userId', async (req, res) => {
+  try {
+      const stocks = await Stock.find({ userId: req.params.userId });
+      res.json(stocks);
+  } catch (err) {
+      res.status(500).json({ error: "Error fetching stocks" });
+  }
 });
 
 app.post('/stocks', async (req, res) => {
-    try {
-        const { name, category, quantity, price } = req.body;
-        const newStock = new Stock({ name, category, quantity, price });
-        await newStock.save();
-        res.status(201).json(newStock);
-    } catch (err) {
-        res.status(500).json({ error: "Failed to add stock item" });
-    }
+  const { userId, name, category, quantity, price } = req.body;
+  try {
+      const newStock = new Stock({ userId, name, category, quantity, price });
+      await newStock.save();
+      res.status(201).json(newStock);
+  } catch (err) {
+      res.status(500).json({ error: "Error adding stock item" });
+  }
+});
+
+app.put('/stocks/:id', async (req, res) => {
+  const { quantity } = req.body;
+  try {
+      const updatedStock = await Stock.findByIdAndUpdate(req.params.id, { quantity }, { new: true });
+      res.json(updatedStock);
+  } catch (err) {
+      res.status(500).json({ error: "Error updating stock" });
+  }
 });
 
 app.delete('/stocks/:id', async (req, res) => {
-    try {
-        await Stock.findByIdAndDelete(req.params.id);
-        res.json({ message: "Stock item deleted successfully" });
-    } catch (err) {
-        res.status(500).json({ error: "Failed to delete stock item" });
-    }
+  try {
+      await Stock.findByIdAndDelete(req.params.id);
+      res.json({ message: "Stock item deleted successfully" });
+  } catch (err) {
+      res.status(500).json({ error: "Error deleting stock item" });
+  }
 });
+
 
 app.listen(PORT, () => {
   console.log('Server is running on http://localhost:',`${PORT}`);

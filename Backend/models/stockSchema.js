@@ -1,5 +1,6 @@
 const mdb=require("mongoose")
 const stockSchema = new mdb.Schema({
+    userId:String,
     name: String,
     category: String,
     quantity: Number,

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CSS/ProductManagement.css';
 
-const ProductManagement = () => {
+const ProductManagement = ({ userId }) => {  
   const [products, setProducts] = useState([]);
   const [newProduct, setNewProduct] = useState({
     name: '',
@@ -13,10 +13,10 @@ const ProductManagement = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [userId]);
 
   const fetchProducts = () => {
-    axios.get('http://localhost:5001/products')
+    axios.get(`http://localhost:5001/products/${userId}`)
       .then((response) => {
         console.log("Products fetched:", response.data);
         setProducts(response.data);
@@ -33,10 +33,10 @@ const ProductManagement = () => {
       [name]: value
     });
   };
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5001/products', newProduct)
+    axios.post('http://localhost:5001/products', { ...newProduct, userId: userId })
       .then((response) => {
         console.log("Added Product:", response.data);
         setNewProduct({ name: '', category: '', price: '', quantity: '' });
@@ -46,7 +46,7 @@ const ProductManagement = () => {
       .catch((error) => {
         console.error('Error adding product', error);
       });
-  };
+};
 
   return (
     <div className="product-management">

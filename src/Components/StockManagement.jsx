@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CSS/StockManagement.css';
 
-const StockManagement = () => {
+const StockManagement = ({ userId }) => {
   const [stocks, setStocks] = useState([]);
   const [newStock, setNewStock] = useState({
     name: '',
@@ -12,15 +12,14 @@ const StockManagement = () => {
   });
 
   useEffect(() => {
-    axios.get('http://localhost:5001/stocks')
+    axios.get(`http://localhost:5001/stocks/${userId}`)
       .then((response) => {
         setStocks(response.data);
       })
       .catch((error) => {
         console.error('Error fetching stock data', error);
       });
-  }, []);
-
+  }, [userId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,7 +28,7 @@ const StockManagement = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5001/stocks', newStock)
+    axios.post('http://localhost:5001/stocks', { ...newStock, userId: userId })
       .then((response) => {
         setStocks([...stocks, response.data]);
         setNewStock({ name: '', category: '', quantity: '', price: '' });
@@ -37,7 +36,8 @@ const StockManagement = () => {
       .catch((error) => {
         console.error('Error adding stock item', error);
       });
-  };
+};
+
 
   const handleDelete = (id) => {
     axios.delete(`http://localhost:5001/stocks/${id}`)

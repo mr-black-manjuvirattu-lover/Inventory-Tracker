@@ -1,5 +1,6 @@
 const mdb =require("mongoose")
 const productSchema = new mdb.Schema({
+  userId:String,
   name: String,
   category: String,
   price: Number,
