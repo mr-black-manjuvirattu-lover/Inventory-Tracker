@@ -3,7 +3,6 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  padding: 40px;
   background: linear-gradient(135deg, #2c3e50, #4ca1af);
   color: white;
   font-family: 'Poppins', sans-serif;
@@ -15,7 +14,7 @@
   text-align: left;
 }
 
-h1 {
+.home-content h1 {
   font-size: 3.0rem;
   margin-bottom: 15px;
   background: linear-gradient(135deg, #97f897, #e595ee);
@@ -23,7 +22,7 @@ h1 {
   color: transparent; 
 }
 
-p {
+.home-content p {
   font-size: 1.2rem;
   margin-bottom: 15px;
 }

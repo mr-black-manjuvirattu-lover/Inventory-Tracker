@@ -36,7 +36,6 @@ function Signup() {
       const isSignup = req.data.isSignup;
 
       if (isSignup) {
-        alert(message);
         navigate('/login');
       } else {
         alert(message);

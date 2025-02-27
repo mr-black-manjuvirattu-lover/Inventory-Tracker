@@ -2,16 +2,20 @@
   top: 0;
   margin: 0;
   padding: 0;
-  height: 100vh;
+  height: 100vh; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-image: url('./Images/Login.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  overflow: hidden;
 }
+
 
 .login-container {
   max-width: 400px;
-  margin: 50px auto;
   padding: 30px;
   background: linear-gradient(135deg, #97f897, #e595ee), center/cover; 
   border-radius: 8px;

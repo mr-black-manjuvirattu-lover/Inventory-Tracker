@@ -26,7 +26,6 @@ function Login({ setUserName, setIsLoggedIn }) {
       if (isLoggedin) {
         setUserName(response.data.userName); 
         setIsLoggedIn(true);
-        alert(message);
         navigate("/dashboard");
       } else {
         alert(message);
