@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 
 const corsOptions={
-    origin: ['https://inventory-tracker-two-mocha.vercel.app/', 'http://localhost:5173'],
+    origin: ['https://inventory-tracker-two-mocha.vercel.app', 'http://localhost:5173'],
     methods: ['GET', 'POST','PUT','DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
  };
