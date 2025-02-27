@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CSS/ProductManagement.css';
 
-const ProductManagement = ({ userId }) => {  
+const ProductManagement = ({ userId }) => {
   const [products, setProducts] = useState([]);
   const [newProduct, setNewProduct] = useState({
     name: '',
@@ -16,7 +16,7 @@ const ProductManagement = ({ userId }) => {
   }, [userId]);
 
   const fetchProducts = () => {
-    axios.get(`https://inventory-tracker-1fnw.onrender.com/${userId}`)
+    axios.get(`https://inventory-tracker-1fnw.onrender.com/products/${userId}`)
       .then((response) => {
         console.log("Products fetched:", response.data);
         setProducts(response.data);
@@ -40,13 +40,34 @@ const ProductManagement = ({ userId }) => {
       .then((response) => {
         console.log("Added Product:", response.data);
         setNewProduct({ name: '', category: '', price: '', quantity: '' });
-
         fetchProducts();
       })
       .catch((error) => {
         console.error('Error adding product', error);
       });
-};
+  };
+
+  const handleDelete = (productId) => {
+    axios.delete(`https://inventory-tracker-1fnw.onrender.com/products/${productId}`)
+      .then((response) => {
+        console.log("Deleted Product:", response.data);
+        fetchProducts(); 
+      })
+      .catch((error) => {
+        console.error('Error deleting product', error);
+      });
+  };
+
+  const handleUpdate = (productId, newQuantity) => {
+    axios.put(`https://inventory-tracker-1fnw.onrender.com/products/${productId}`, { quantity: newQuantity })
+      .then((response) => {
+        console.log("Updated Product:", response.data);
+        fetchProducts();
+      })
+      .catch((error) => {
+        console.error('Error updating product', error);
+      });
+  };
 
   return (
     <div className="product-management">
@@ -67,6 +88,8 @@ const ProductManagement = ({ userId }) => {
             products.map((product) => (
               <li key={product._id}>
                 {product.name} - {product.category} - Rs.{product.price} - {product.quantity} units
+                <button onClick={() => handleUpdate(product._id, product.quantity + 1)}>Increase Quantity</button>
+                <button onClick={() => handleDelete(product._id)}>Delete</button>
               </li>
             ))
           ) : (

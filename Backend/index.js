@@ -9,7 +9,15 @@ const Stock=require('./models/stockSchema')
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+
+const corsOptions={
+    origin: ['https://inventory-tracker-two-mocha.vercel.app/', 'http://localhost:5173'],
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+ };
+ 
+app.use(cors(corsOptions))
+
 dotenv.config()
 
 const PORT=process.env.PORT||3001
