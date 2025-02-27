@@ -10,9 +10,10 @@ const StockManagement = ({ userId }) => {
     quantity: '',
     price: ''
   });
+  const [editStock, setEditStock] = useState(null);
 
   useEffect(() => {
-    axios.get(`https://inventory-tracker-1fnw.onrender.com/${userId}`)
+    axios.get(`https://inventory-tracker-1fnw.onrender.com/stocks/${userId}`)
       .then((response) => {
         setStocks(response.data);
       })
@@ -28,16 +29,27 @@ const StockManagement = ({ userId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://inventory-tracker-1fnw.onrender.com/stocks', { ...newStock, userId: userId })
-      .then((response) => {
-        setStocks([...stocks, response.data]);
-        setNewStock({ name: '', category: '', quantity: '', price: '' });
-      })
-      .catch((error) => {
-        console.error('Error adding stock item', error);
-      });
-};
-
+    if (editStock) {
+      axios.put(`https://inventory-tracker-1fnw.onrender.com/stocks/${editStock._id}`, { ...newStock })
+        .then((response) => {
+          setStocks(stocks.map(stock => stock._id === editStock._id ? response.data : stock));
+          setNewStock({ name: '', category: '', quantity: '', price: '' });
+          setEditStock(null);
+        })
+        .catch((error) => {
+          console.error('Error updating stock item', error);
+        });
+    } else {
+      axios.post('https://inventory-tracker-1fnw.onrender.com/stocks', { ...newStock, userId: userId })
+        .then((response) => {
+          setStocks([...stocks, response.data]);
+          setNewStock({ name: '', category: '', quantity: '', price: '' });
+        })
+        .catch((error) => {
+          console.error('Error adding stock item', error);
+        });
+    }
+  };
 
   const handleDelete = (id) => {
     axios.delete(`https://inventory-tracker-1fnw.onrender.com/stocks/${id}`)
@@ -49,6 +61,16 @@ const StockManagement = ({ userId }) => {
       });
   };
 
+  const handleEdit = (stock) => {
+    setEditStock(stock);
+    setNewStock({
+      name: stock.name,
+      category: stock.category,
+      quantity: stock.quantity,
+      price: stock.price
+    });
+  };
+
   return (
     <div className="stock-management">
       <h2>Stock Management</h2>
@@ -58,7 +80,7 @@ const StockManagement = ({ userId }) => {
         <input type="text" name="category" value={newStock.category} onChange={handleChange} placeholder="Category" required />
         <input type="number" name="quantity" value={newStock.quantity} onChange={handleChange} placeholder="Quantity" required />
         <input type="number" name="price" value={newStock.price} onChange={handleChange} placeholder="Price" required />
-        <button type="submit">Add Stock</button>
+        <button type="submit">{editStock ? 'Update Stock' : 'Add Stock'}</button>
       </form>
 
       <div className="stock-list">
@@ -81,6 +103,7 @@ const StockManagement = ({ userId }) => {
                 <td>{stock.quantity}</td>
                 <td>Rs.{stock.price}</td>
                 <td>
+                  <button className="edit-btn" onClick={() => handleEdit(stock)}>Edit</button>
                   <button className="delete-btn" onClick={() => handleDelete(stock._id)}>Delete</button>
                 </td>
               </tr>
