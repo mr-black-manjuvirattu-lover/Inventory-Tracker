@@ -3,8 +3,7 @@ const productSchema = new mdb.Schema({
   userId:String,
   name: String,
   category: String,
-  price: Number,
-  quantity: Number,
+  price: Number
 });
 
 const product_Schema = mdb.model('Product', productSchema);

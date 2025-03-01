@@ -3,10 +3,16 @@ import { BrowserRouter as Router, Route, Routes, useLocation} from "react-router
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import NavBar from "./Components/NavBar";
+import About from "./Components/About";
 import Home from "./Components/Home";
 import Dashboard from "./Components/Dashboard";
 import StockManagement from "./Components/StockManagement";
 import ProductManagement from "./Components/ProductManagement";
+import Sales from "./Components/Sales/Sales";
+import Purchases from "./Components/Purchases/Purchases";
+import ReportPage from "./Components/ReportPage";
+import Contact from "./Components/Contact"
+import Customer from "./Components/Sales/Customer";
 
 const App = () => {
   const [userName, setUserName] = useState(localStorage.getItem("userName") || "");
@@ -53,15 +59,20 @@ const MainContent = ({ userName, setUserName, isLoggedIn, setIsLoggedIn, userId,
     <>
       {!hideNavBar && <NavBar userName={userName} isLoggedIn={isLoggedIn} onLogout={handleLogout} />}
       <Routes>
-        <Route path="/" element={<Home/>}/>
+        <Route path="/" element={<About/>}/>
         <Route 
           path="/login" 
           element={<Login setUserName={setUserName} setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} />} 
         />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/home" element={<Home/>}/>
         <Route path="/dashboard" element={<Dashboard userId={userId} />} />
         <Route path="/products" element={<ProductManagement userId={userId} />} />
         <Route path="/stocks" element={<StockManagement userId={userId} />} />
+        <Route path="/report" element={<ReportPage/>}/>
+        <Route path="/sales" element={<Sales/>}/>
+        <Route path="/purchases" element={<Purchases/>}/>
+        <Route path="/contact" element={<Contact/>}/>
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
     </>

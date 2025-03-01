@@ -37,7 +37,7 @@ function Login({ setUserName, setIsLoggedIn, setUserId }) {
         localStorage.setItem("userId", userId);
         localStorage.setItem("userName", userName);
         
-        navigate("/dashboard"); 
+        navigate("/home"); 
       } else {
         alert(message);
       }

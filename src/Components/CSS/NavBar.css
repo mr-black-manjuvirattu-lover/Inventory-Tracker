@@ -1,60 +1,101 @@
-header {
-  background: linear-gradient(135deg, #97f897, #e595ee);
-  padding: 20px;
-  text-align: center;
-  color: white;
-  position: relative;
-}
-
-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.navbar-right {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+.navbar {
   display: flex;
   align-items: center;
+  background: linear-gradient(135deg, #41f841, #db09f3);
+  padding: 15px 20px;
+  color: white;
+}
+
+.navbar-left {
+  flex: 1;
+}
+
+.navbar-left h1 {
+  font-size: 2.0rem;
+  margin: 0;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li {
+  font-size: 1.5rem;
+  display: inline;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.3rem;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #000;
+  background-color: #41f841;
+  border-radius: 20px;
+  padding: 15px;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
 .user-name {
   margin-right: 10px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 
 .profile-icon {
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   object-fit: cover;
-  background-color: black;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.profile-icon:hover {
+  transform: scale(1.1);
 }
 
 .dropdown-menu {
   position: absolute;
-  top: 30px;
-  right: 1px;
-  background-color: white;
+  top: 45px;
+  right: 0;
+  background-color: transparent;
   border: 1px solid #ccc;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
+  border-radius: 5px;
   padding: 10px;
-  width: 120px;
+  width: 130px;
   text-align: center;
 }
 
 .logout-btn {
   width: 100%;
-  padding: 10px; 
+  padding: 8px;
   background-color: red;
   color: white;
   border: none;
   cursor: pointer;
-  border-radius: 4px;
-  font-size: 1rem; 
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background 0.3s ease-in-out;
 }
 
 .logout-btn:hover {

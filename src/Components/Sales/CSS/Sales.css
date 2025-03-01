@@ -1,0 +1,42 @@
+.sales-container {
+    text-align: center;
+    padding: 20px;
+    background: #f4f4f4;
+    min-height: 100vh;
+  }
+  
+  .sales-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .sales-tabs button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    background: #ddd;
+    border-radius: 5px;
+    transition: 0.3s;
+  }
+  
+  .sales-tabs .active {
+    background: #4caf50;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .sales-tabs button:hover {
+    background: #4caf50;
+    color: white;
+  }
+  
+  .sales-content {
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  

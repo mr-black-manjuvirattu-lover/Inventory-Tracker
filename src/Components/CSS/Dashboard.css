@@ -1,7 +1,7 @@
 .dashboard-container {
     margin: 40px auto;
     padding: 20px;
-    background: linear-gradient(135deg, #97f897, #e595ee);
+    background: linear-gradient(135deg,#e595ee, #97f897 );
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;

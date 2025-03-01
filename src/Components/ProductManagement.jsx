@@ -7,8 +7,7 @@ const ProductManagement = ({ userId }) => {
   const [newProduct, setNewProduct] = useState({
     name: '',
     category: '',
-    price: '',
-    quantity: ''
+    price: ''
   });
   const [isEditing, setIsEditing] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -18,7 +17,7 @@ const ProductManagement = ({ userId }) => {
   }, [userId]);
 
   const fetchProducts = () => {
-    axios.get(`https://inventory-tracker-1fnw.onrender.com/products/${userId}`)
+    axios.get(`http://localhost:5001/products/${userId}`)
       .then((response) => {
         console.log("Products fetched:", response.data);
         setProducts(response.data);
@@ -38,10 +37,10 @@ const ProductManagement = ({ userId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://inventory-tracker-1fnw.onrender.com/products', { ...newProduct, userId: userId })
+    axios.post('http://localhost:5001/products', { ...newProduct, userId: userId })
       .then((response) => {
         console.log("Added Product:", response.data);
-        setNewProduct({ name: '', category: '', price: '', quantity: '' });
+        setNewProduct({ name: '', category: '', price: ''});
         fetchProducts();
       })
       .catch((error) => {
@@ -50,7 +49,7 @@ const ProductManagement = ({ userId }) => {
   };
 
   const handleDelete = (productId) => {
-    axios.delete(`https://inventory-tracker-1fnw.onrender.com/products/${productId}`)
+    axios.delete(`http://localhost:5001/products/${productId}`)
       .then((response) => {
         console.log("Deleted Product:", response.data);
         fetchProducts(); 
@@ -66,25 +65,24 @@ const ProductManagement = ({ userId }) => {
     setNewProduct({
       name: product.name,
       category: product.category,
-      price: product.price,
-      quantity: product.quantity
+      price: product.price
     });
   };
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    axios.put(`https://inventory-tracker-1fnw.onrender.com/products/${editingProduct._id}`, { ...newProduct })
+    axios.put(`http://localhost:5001/products/${editingProduct._id}`, { ...newProduct })
       .then((response) => {
         console.log("Updated Product:", response.data);
         setIsEditing(false);
         setEditingProduct(null);
-        setNewProduct({ name: '', category: '', price: '', quantity: '' });
+        setNewProduct({ name: '', category: '', price: '' });
         fetchProducts();
       })
       .catch((error) => {
         console.error('Error updating product', error);
       });
-  };
+  };  
 
   return (
     <div className="product-management">
@@ -115,14 +113,6 @@ const ProductManagement = ({ userId }) => {
           placeholder="Price"
           required
         />
-        <input
-          type="number"
-          name="quantity"
-          value={newProduct.quantity}
-          onChange={handleChange}
-          placeholder="Quantity"
-          required
-        />
         <button type="submit">{isEditing ? 'Update Product' : 'Add Product'}</button>
       </form>
 
@@ -132,7 +122,7 @@ const ProductManagement = ({ userId }) => {
           {products.length > 0 ? (
             products.map((product) => (
               <li key={product._id}>
-                {product.name} - {product.category} - Rs.{product.price} - {product.quantity} units
+                {product.name} - {product.category} - Rs.{product.price}
                 <button onClick={() => handleEdit(product)}>Edit</button>
                 <button onClick={() => handleDelete(product._id)}>Delete</button>
               </li>

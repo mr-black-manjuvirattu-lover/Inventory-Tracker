@@ -3,17 +3,25 @@ import axios from 'axios';
 import './CSS/StockManagement.css';
 
 const StockManagement = ({ userId }) => {
+  const [products, setProducts] = useState([]);
   const [stocks, setStocks] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [newStock, setNewStock] = useState({
-    name: '',
-    category: '',
+    productId: '',
     quantity: '',
-    price: ''
   });
   const [editStock, setEditStock] = useState(null);
 
   useEffect(() => {
-    axios.get(`https://inventory-tracker-1fnw.onrender.com/stocks/${userId}`)
+    axios.get(`http://localhost:5001/products/${userId}`)
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching products', error);
+      });
+
+    axios.get(`http://localhost:5001/stocks/${userId}`)
       .then((response) => {
         setStocks(response.data);
       })
@@ -22,28 +30,40 @@ const StockManagement = ({ userId }) => {
       });
   }, [userId]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewStock({ ...newStock, [name]: value });
+  const handleProductChange = (e) => {
+    const productId = e.target.value;
+    const selected = products.find(p => p._id === productId);
+    setSelectedProduct(selected);
+    setNewStock({
+      ...newStock,
+      productId: productId,
+      quantity: '',
+    });
+  };
+
+  const handleQuantityChange = (e) => {
+    setNewStock({ ...newStock, quantity: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (editStock) {
-      axios.put(`https://inventory-tracker-1fnw.onrender.com/stocks/${editStock._id}`, { ...newStock })
+      axios.put(`http://localhost:5001/stocks/${editStock._id}`, { ...newStock })
         .then((response) => {
           setStocks(stocks.map(stock => stock._id === editStock._id ? response.data : stock));
-          setNewStock({ name: '', category: '', quantity: '', price: '' });
+          setNewStock({ productId: '', quantity: '' });
           setEditStock(null);
+          setSelectedProduct(null);
         })
         .catch((error) => {
           console.error('Error updating stock item', error);
         });
     } else {
-      axios.post('https://inventory-tracker-1fnw.onrender.com/stocks', { ...newStock, userId: userId })
+      axios.post('http://localhost:5001/stocks', { ...newStock, userId: userId })
         .then((response) => {
           setStocks([...stocks, response.data]);
-          setNewStock({ name: '', category: '', quantity: '', price: '' });
+          setNewStock({ productId: '', quantity: '' });
+          setSelectedProduct(null);
         })
         .catch((error) => {
           console.error('Error adding stock item', error);
@@ -52,7 +72,7 @@ const StockManagement = ({ userId }) => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`https://inventory-tracker-1fnw.onrender.com/stocks/${id}`)
+    axios.delete(`http://localhost:5001/stocks/${id}`)
       .then(() => {
         setStocks(stocks.filter(stock => stock._id !== id));
       })
@@ -64,11 +84,10 @@ const StockManagement = ({ userId }) => {
   const handleEdit = (stock) => {
     setEditStock(stock);
     setNewStock({
-      name: stock.name,
-      category: stock.category,
+      productId: stock.productId,
       quantity: stock.quantity,
-      price: stock.price
     });
+    setSelectedProduct(products.find(p => p._id === stock.productId));
   };
 
   return (
@@ -76,10 +95,22 @@ const StockManagement = ({ userId }) => {
       <h2>Stock Management</h2>
 
       <form onSubmit={handleSubmit}>
-        <input type="text" name="name" value={newStock.name} onChange={handleChange} placeholder="Stock Name" required />
-        <input type="text" name="category" value={newStock.category} onChange={handleChange} placeholder="Category" required />
-        <input type="number" name="quantity" value={newStock.quantity} onChange={handleChange} placeholder="Quantity" required />
-        <input type="number" name="price" value={newStock.price} onChange={handleChange} placeholder="Price" required />
+        <select name="productId" value={newStock.productId} onChange={handleProductChange} required>
+          <option value="">Select Product</option>
+          {products.map((product) => (
+            <option key={product._id} value={product._id}>
+              {product.name}
+            </option>
+          ))}
+        </select>
+
+        {selectedProduct && (
+          <>
+            <input type="text" value={selectedProduct.price} readOnly placeholder="Price" />
+          </>
+        )}
+
+        <input type="number" name="quantity" value={newStock.quantity} onChange={handleQuantityChange} placeholder="Stock Quantity" required />
         <button type="submit">{editStock ? 'Update Stock' : 'Add Stock'}</button>
       </form>
 
@@ -88,7 +119,7 @@ const StockManagement = ({ userId }) => {
         <table>
           <thead>
             <tr>
-              <th>Name</th>
+              <th>Product Name</th>
               <th>Category</th>
               <th>Quantity</th>
               <th>Price</th>
@@ -96,18 +127,21 @@ const StockManagement = ({ userId }) => {
             </tr>
           </thead>
           <tbody>
-            {stocks.map((stock) => (
-              <tr key={stock._id}>
-                <td>{stock.name}</td>
-                <td>{stock.category}</td>
-                <td>{stock.quantity}</td>
-                <td>Rs.{stock.price}</td>
-                <td>
-                  <button className="edit-btn" onClick={() => handleEdit(stock)}>Edit</button>
-                  <button className="delete-btn" onClick={() => handleDelete(stock._id)}>Delete</button>
-                </td>
-              </tr>
-            ))}
+            {stocks.map((stock) => {
+              const product = products.find(p => p._id === stock.productId);
+              return (
+                <tr key={stock._id}>
+                  <td>{product ? product.name : 'Unknown'}</td>
+                  <td>{product ? product.category : 'Unknown'}</td>
+                  <td>{stock.quantity}</td>
+                  <td>Rs.{product ? product.price : 'N/A'}</td>
+                  <td>
+                    <button className="edit-btn" onClick={() => handleEdit(stock)}>Edit</button>
+                    <button className="delete-btn" onClick={() => handleDelete(stock._id)}>Delete</button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

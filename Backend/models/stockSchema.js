@@ -1,10 +1,12 @@
 const mdb=require("mongoose")
 const stockSchema = new mdb.Schema({
-    userId:String,
-    name: String,
+    userId: String,
+    productId: String,
+    productName: String,
     category: String,
-    quantity: Number,
-    price: Number
+    price: Number,
+    quantity: Number
+
 });
 
 const Stock_Schema = mdb.model('Stock', stockSchema);

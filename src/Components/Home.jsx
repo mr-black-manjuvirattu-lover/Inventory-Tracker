@@ -1,46 +1,40 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import "./CSS/Home.css";
-import inventoryImage from "../assets/Images/inventory-tracker.jpg"; 
 
 const Home = () => {
-  const navigate = useNavigate();
-
-  const handleGetStarted = () => {
-    navigate("/login");
-  };
+  const features = [
+    { title: "Dashboard", desc: "Get an overview of your inventory in real-time." },
+    { title: "Sales", desc: "Track all your sales transactions easily." },
+    { title: "Purchase", desc: "Manage stock purchases efficiently." },
+    { title: "Report", desc: "Generate detailed reports on inventory and sales." },
+    { title: "Contact", desc: "Get support and reach out to us anytime." },
+  ];
 
   return (
-    <div className="home-container">
-      <div className="home-content">
-        <h1>Welcome to Inventory Tracker!</h1>
-        <p>
-          Keep your stock organized, track products in real-time, and manage your inventory effortlessly.  
-          Inventory Tracker helps you reduce stock errors, optimize storage, and improve overall efficiency.  
-        </p>
+    <>
+      <div className="home-container">
+        <motion.div className="intro" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
+          <h1>Manage Your Inventory Efficiently</h1>
+          <p>Track sales, purchases, and generate insightful reports seamlessly.</p>
+        </motion.div>
 
-        <ul className="features-list">
-          <li>✅ Real-time stock updates</li>
-          <li>✅ Easy product categorization</li>
-          <li>✅ Automated low-stock alerts</li>
-          <li>✅ User-friendly dashboard</li>
-          <li>✅ Cloud-based access anywhere</li>
-        </ul>
-
-        <p>
-          Take control of your inventory today and never lose track of your stock again!  
-          Sign up now and experience seamless inventory management.
-        </p>
-
-        <button className="get-started-button" onClick={handleGetStarted}>
-          Get Started
-        </button>
+        <div className="features-grid">
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              className="feature-box"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h3>{feature.title}</h3>
+              <p>{feature.desc}</p>
+            </motion.div>
+          ))}
+        </div>
       </div>
-
-      <div className="home-image">
-        <img src={inventoryImage} alt="Inventory Tracking Illustration" />
-      </div>
-    </div>
+    </>
   );
 };
 
