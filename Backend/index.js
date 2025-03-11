@@ -10,7 +10,7 @@ const { Parser } = require('json2csv');
 const PDFDocument = require('pdfkit');
 const Customer = require('./models/Customer');
 const SalesOrder=require('./models/SalesOrderSchema')
-
+const SalesReturn=require('./models/salesReturn');
 const app = express();
 
 app.use(express.json());
@@ -316,40 +316,136 @@ app.delete('/customers/:id', async (req, res) => {
     }
 });
 
-app.post('/salesorder', async (req, res) => {
+app.post('/salesorder/:id', async (req, res) => {
     try {
-        const { userId, productId, stockId,customerId, customer,product,quantity,price,orderDate,returnDate,status} = req.body;
-        const totalPrice = price * quantity;
-        const newOrder = new SalesOrder({
-            userId,
-            productId,
-            stockId,
-            customerId,
-            customer,
-            product,
-            quantity,
-            price,
-            totalPrice,
-            orderDate,
-            returnDate,
-            status
-        });
-        await newOrder.save();
-        res.status(201).json(newOrder);
-    } catch (error) {
-      res.status(500).json({ error: "Error creating sales order" });
-    }
-  });
+      const { 
+        userId, 
+        productId, 
+        stockId, 
+        customerId, 
+        customer, 
+        product, 
+        quantity, 
+        price, 
+        orderDate, 
+        returnDate, 
+        status 
+      } = req.body;
   
-  app.get('/salesorder/:id', async (req, res) => {
+      const totalPrice = price * quantity;
+  
+      const stockItem = await Stock.findById(stockId);
+  
+      if (!stockItem) {
+        return res.status(400).json({ error: 'Stock not found' });
+      }
+  
+      if (stockItem.quantity < quantity) {
+        return res.status(400).json({ error: 'Not enough stock available' });
+      }
+  
+      const newOrder = new SalesOrder({
+        userId,
+        productId,
+        stockId,
+        customerId,
+        customer,
+        product,
+        quantity,
+        price,
+        totalPrice,
+        orderDate,
+        returnDate,
+        status
+      });
+  
+      const savedOrder = await newOrder.save();
+  
+      stockItem.quantity -= quantity;
+      await stockItem.save();
+  
+      res.status(201).json({ message: 'Sales order created and stock updated', order: savedOrder });
+  
+    } catch (error) {
+      console.error('Error creating sales order:', error);
+      res.status(500).json({ error: 'Server error' });
+    }
+});
+ 
+app.get('/salesorder/:id', async (req, res) => {
+try {
+    const orders = await SalesOrder.find({ userId: req.params.id });
+    res.json(orders);
+} catch (error) {
+    res.status(500).json({ error: "Error fetching sales orders" });
+}
+});
+  
+app.post('/salesreturn/:userId', async (req, res) => {
+    const { userId } = req.params;
+    const { customerId, customer, productId, product, quantity, feedback, salesOrderId } = req.body;
+  
     try {
-      const orders = await SalesOrder.find({userId: req.params.userId});
-      res.json(orders);
-    } catch (error) {
-      res.status(500).json({ error: "Error fetching sales orders" });
-    }
-  });
+      const salesReturn = new SalesReturn({
+        userId,
+        customerId,
+        customer,
+        productId,
+        product,
+        quantity,
+        feedback,
+        salesOrderId,  
+        returnDate: new Date()
+      });
   
+      await salesReturn.save();
+  
+      res.status(201).json({ message: 'Sales return recorded', salesReturn });
+    } catch (err) {
+      res.status(500).json({ message: 'Error saving sales return', error: err.message });
+    }
+});
+
+app.put('/updatestock/:id', async (req, res) => {
+    const { stockId, quantity } = req.body;
+    console.log('Request body:', req.body);
+  
+    try {
+        const stock = await Stock.findById(stockId);
+  
+        if (!stock) {
+          return res.status(404).json({ message: 'Stock not found' });
+        }
+  
+        stock.quantity += parseInt(quantity, 10);
+        await stock.save();
+  
+        res.status(200).json({ message: 'Stock updated successfully', stock });
+    } catch (err) {
+        console.error('Error updating stock:', err); 
+        res.status(500).json({ message: 'Error updating stock', error: err.message });
+    }
+});
+
+app.put('/updatesalesorder/:id', async (req, res) => {
+    const { id } = req.params;  
+    const { status } = req.body;  
+  
+    try {
+      const salesOrder = await SalesOrder.findById(id);
+  
+      if (!salesOrder) {
+        return res.status(404).json({ message: 'Sales order not found' });
+      }
+  
+      salesOrder.status = status;
+      await salesOrder.save();
+  
+      res.status(200).json({ message: 'Sales order updated successfully', salesOrder });
+    } catch (err) {
+      res.status(500).json({ message: 'Error updating sales order', error: err.message });
+    }
+});  
 
 app.listen(PORT, () => {
   console.log('Server is running on http://localhost:',`${PORT}`);

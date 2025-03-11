@@ -12,8 +12,7 @@ import Sales from "./Components/Sales/Sales";
 import Purchases from "./Components/Purchases/Purchases";
 import ReportPage from "./Components/ReportPage";
 import Contact from "./Components/Contact"
-import Customer from "./Components/Sales/Customer";
-
+import Payment from "./Components/Sales/Payment";
 const App = () => {
   const [userName, setUserName] = useState(localStorage.getItem("userName") || "");
   const [userId, setUserId] = useState(localStorage.getItem("userId") || null);
@@ -72,6 +71,7 @@ const MainContent = ({ userName, setUserName, isLoggedIn, setIsLoggedIn, userId,
         <Route path="/report" element={<ReportPage/>}/>
         <Route path="/sales" element={<Sales/>}/>
         <Route path="/purchases" element={<Purchases/>}/>
+        <Route path="/payment" element={<Payment />} />
         <Route path="/contact" element={<Contact/>}/>
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>

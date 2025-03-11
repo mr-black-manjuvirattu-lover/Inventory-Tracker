@@ -23,9 +23,9 @@ const Sales = () => {
         {/* <button onClick={() => setActiveTab("shipment")} className={activeTab === "shipment" ? "active" : ""}>
           Shipment
         </button> */}
-        <button onClick={() => setActiveTab("payment")} className={activeTab === "payment" ? "active" : ""}>
+        {/* <button onClick={() => setActiveTab("payment")} className={activeTab === "payment" ? "active" : ""}>
           Payment
-        </button>
+        </button> */}
         <button onClick={() => setActiveTab("salesReturn")} className={activeTab === "salesReturn" ? "active" : ""}>
           Sales Return
         </button>
@@ -34,8 +34,8 @@ const Sales = () => {
       <div className="sales-content">
         {activeTab === "customer" && <Customer />}
         {activeTab === "salesOrder" && <SalesOrder />}
-        {activeTab === "shipment" && <Shipment />}
-        {activeTab === "payment" && <Payment />}
+        {/* {activeTab === "shipment" && <Shipment />}
+        {activeTab === "payment" && <Payment />} */}
         {activeTab === "salesReturn" && <SalesReturn />}
       </div>
     </div>

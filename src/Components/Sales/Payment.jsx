@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom'; // import this
 import './CSS/Payment.css';
 
 const Payment = () => {
-  const [payment, setPayment] = useState({ amount: '', method: '', date: '' });
+  const location = useLocation();
+  const { totalPrice } = location.state || { totalPrice: 0 };
+
+  const [payment, setPayment] = useState({
+    amount: totalPrice, // initialize with the passed amount
+    method: '',
+    date: ''
+  });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e) => {
@@ -16,7 +24,7 @@ const Payment = () => {
   };
 
   const handleClear = () => {
-    setPayment({ amount: '', method: '', date: '' });
+    setPayment({ amount: totalPrice, method: '', date: '' });
     setIsSubmitted(false);
   };
 

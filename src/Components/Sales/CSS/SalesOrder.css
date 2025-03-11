@@ -1,114 +1,133 @@
 .sales-order-wrapper {
   display: flex;
-  gap: 10px;
-  padding: 20px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .sales-order-container {
-  background: #f9f9f9;
-  padding: 10px;
+  width: 90%;
+  max-width: 800px;
+  background-color: #ffffff;
+  padding:  30px;
+  margin-bottom: 30px;
   border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  width: 30%;
-  min-width: 320px;
-  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-.sales-orders-container{
-  background: #f9f9f9;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  width: 60%;
-  min-width: 320px;
+
+.sales-order-container h2,
+.sales-order-container h3 {
   text-align: center;
-}
-.sales-order-container h2, 
-.sales-orders-container h3 {
-  color: #007bff;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .sales-order-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
 }
 
-.sales-order-form label {
-  font-weight: bold;
-  text-align: left;
-  display: block;
-  margin-bottom: 5px;
-  color: #333;
+.form-group {
+  display: flex;
+  flex-direction: column;
 }
 
-.sales-order-form input, 
-.sales-order-form select {
-  width: 60%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #444;
+}
+
+.form-group input,
+.form-group select {
+  height: 40px;
+  padding: 8px 12px;
   font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition: all 0.3s ease;
 }
 
-.product-info {
-  font-size: 14px;
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.product-details {
+  background-color: #f1f1f1;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.product-details p {
+  margin: 5px 0;
   color: #555;
-  font-weight: bold;
-  margin-bottom: 5px;
 }
 
-.total-price {
-  font-size: 18px;
-  color: #007bff;
-  font-weight: bold;
+.error-message {
+  color: #d9534f;
+  font-weight: 500;
+  margin-top: -10px;
 }
 
-.sales-order-form button {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 10px;
+button[type="submit"] {
+  height: 45px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: 600;
   font-size: 16px;
-  border-radius: 5px;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
-.sales-order-form button:hover {
-  background: #0056b3;
+button[type="submit"]:hover {
+  background-color: #0056b3;
 }
 
 .sales-orders-table {
-  width: 100%;
+  width: 90%;
   border-collapse: collapse;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
-.sales-orders-table th, 
+.sales-orders-table th,
 .sales-orders-table td {
+  padding: 12px 15px;
   border: 1px solid #ddd;
-  padding: 8px;
   text-align: center;
 }
 
 .sales-orders-table th {
-  background: #007bff;
-  color: white;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: 600;
 }
 
-.sales-orders-table tr:nth-child(even) {
-  background: #f2f2f2;
+.sales-orders-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.sales-orders-table tbody tr:hover {
+  background-color: #f1f1f1;
 }
 
 @media (max-width: 768px) {
-  .sales-order-wrapper {
-      flex-direction: column;
-      align-items: center;
+  .sales-order-container {
+    padding: 20px;
   }
 
-  .sales-order-container, .sales-orders-container {
-      width: 90%;
+  .sales-orders-table th,
+  .sales-orders-table td {
+    font-size: 14px;
+    padding: 10px;
   }
 }
